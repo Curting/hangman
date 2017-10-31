@@ -1,0 +1,18 @@
+---
+:word: adage
+:board:
+- a
+- _
+- a
+- g
+- e
+:guesses: 3
+:used_letters:
+  :correct:
+  - e
+  - a
+  - g
+  :wrong:
+  - l
+  - s
+  - m

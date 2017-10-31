@@ -1,20 +1,20 @@
 
+require 'yaml'
+
 class Hangman
 
-  def initialize
+  def initialize(word = "", board = [], guesses = 0, used_letters = { correct: [], wrong: [] })
     @dictionary_path = "5desk.txt"
     @dictionary = load_dictionary
-    @word = ""
-    @board = Array.new
+    word == "" ? @word = choose_word : @word = word
+    @board = board
     @guess = ""
+    new_board if @board == []
+    @used_letters = used_letters
+    @guesses = guesses
   end
 
-  def new_game
-    @word = choose_word
-    new_board
-    @guesses = 0
-    @used_letters = { correct: [], wrong: [] }
-
+  def game
     puts "I'm thinking of a word. Can you guess it?"
     
     until game_over?
@@ -80,8 +80,30 @@ class Hangman
   def play
     show_board
     show_used_letters
+    if @used_letters.values.flatten.length != 0 then save_game end
     guess
     evaluate_guess
+  end
+
+  def save_game
+    puts "Would you like to save your progress? (Y/n)"
+
+    input = gets.chomp.downcase
+    until input == "y" || input == "n"
+      puts "Sorry, I didn't understand that? Try again (Y/n):"
+      input = gets.chomp.downcase
+    end
+
+    if input == "y"
+      puts "Great. I'll save your game as a file."
+      save_file = { word: @word, board: @board, guesses: @guesses, used_letters: @used_letters }
+
+      save_file_yaml = YAML::dump(save_file)
+      File.write("savefile.txt", save_file_yaml)
+      
+    else
+      puts "Alright. Your game has not been saved."
+    end
   end
 
   def guess
@@ -102,7 +124,6 @@ class Hangman
     correct = false
     count = 0
     @word.each_char.with_index do |char, idx|
-
       if char == @guess
         @board[idx] = char
         correct = true
@@ -127,12 +148,26 @@ class Hangman
       puts "What? Write Y for yes or N for no:"
       input = gets.chomp.downcase
     end
-    input == "y" ? new_game : exit
+    input == "y" ? Hangman.new.game : exit
   end
 end
 
-hangman = Hangman.new
-
 puts "Welcome to Hangman!"
+puts "\n> [1] Play new game"
+puts "> [2] Continue from save file"
+puts "\nChoose an option by writing 1 or 2:"
 
-hangman.new_game
+input = gets.chomp
+until input == "1" || input == "2"
+  puts "I don't understand that. Write '1' or '2':"
+  input = gets.chomp
+end
+
+if input == "1"
+  hangman = Hangman.new
+else
+  save_file = YAML::load(File.read("savefile.txt"))
+  hangman = Hangman.new(save_file[:word], save_file[:board], save_file[:guesses], save_file[:used_letters])
+end
+
+hangman.game
