@@ -3,12 +3,10 @@
 
 This project is a part of the [The Odin Project's](theodinproject.com) curriculum. The objective was to code a Hangman game with the ability to interact with files. 
 
-#####The game...
+##### The game...
 * loads a dictionary from the file `5desk.txt`
 * creates a new directory called `savefiles` if it doesn't exist already
 * can be saved (.txt with YAML) anytime with a name chosen by the user
 * can show a list of all the savefiles and let the user choose one to continue from
 
 Enjoy!
-
-
