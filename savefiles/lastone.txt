@@ -1,0 +1,20 @@
+---
+:word: estella
+:board:
+- _
+- _
+- _
+- _
+- l
+- l
+- a
+:guesses: 4
+:used_letters:
+  :correct:
+  - a
+  - l
+  :wrong:
+  - j
+  - d
+  - n
+  - p

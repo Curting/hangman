@@ -1,0 +1,16 @@
+---
+:word: sandal
+:board:
+- s
+- _
+- _
+- _
+- _
+- l
+:guesses: 1
+:used_letters:
+  :correct:
+  - l
+  - s
+  :wrong:
+  - e

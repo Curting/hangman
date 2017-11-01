@@ -1,0 +1,21 @@
+---
+:word: quiveringly
+:board:
+- _
+- _
+- _
+- _
+- _
+- _
+- _
+- n
+- _
+- l
+- _
+:guesses: 1
+:used_letters:
+  :correct:
+  - l
+  - n
+  :wrong:
+  - a

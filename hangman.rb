@@ -97,10 +97,23 @@ class Hangman
     if input == "y"
       puts "Great. I'll save your game as a file."
       save_file = { word: @word, board: @board, guesses: @guesses, used_letters: @used_letters }
+      puts "What should we name the save file?"
+      fname = gets.chomp.downcase
+
+      until fname == fname[/[a-z]+/]
+        puts "What? Please only use one word (a-z):"
+        fname = gets.chomp.downcase
+      end
+
+      Dir.mkdir('savefiles') if !Dir.exist?('savefiles')
+
+      puts "\nSaving your game as '#{fname}'..."
 
       save_file_yaml = YAML::dump(save_file)
-      File.write("savefile.txt", save_file_yaml)
-      
+      File.write("savefiles/#{fname}.txt", save_file_yaml)
+      sleep(2)
+      puts "Your game has been saved."
+      sleep(1)
     else
       puts "Alright. Your game has not been saved."
     end
@@ -152,6 +165,30 @@ class Hangman
   end
 end
 
+def load_game
+  file_list = Dir.entries('savefiles')[2..-1]
+  puts "Choose a savefile:"
+
+  # Splice to remove the "." and ".." in the Dir
+  file_list.each_with_index do |fname, idx|
+    # Splice to remove the .txt extension and idx + 1 to start from 1
+    puts "> [#{idx + 1}] #{fname[0..-5]}"
+  end
+
+  # -1 to return to a idx starting from 0
+  file_idx = gets.chomp.to_i - 1
+  until !file_list[file_idx].nil? && file_idx >= 0
+    puts "\nThat index doesn't exist for a savefile. Try again:"
+    file_idx = gets.chomp.to_i - 1
+  end
+
+  puts "\nLoading #{file_list[file_idx][0..-5]}...\n\n"
+  sleep(2)
+
+  save_file = YAML::load(File.read("savefiles/#{file_list[file_idx]}"))
+  Hangman.new(save_file[:word], save_file[:board], save_file[:guesses], save_file[:used_letters]).game
+end
+
 puts "Welcome to Hangman!"
 puts "\n> [1] Play new game"
 puts "> [2] Continue from save file"
@@ -164,10 +201,7 @@ until input == "1" || input == "2"
 end
 
 if input == "1"
-  hangman = Hangman.new
+  Hangman.new.game
 else
-  save_file = YAML::load(File.read("savefile.txt"))
-  hangman = Hangman.new(save_file[:word], save_file[:board], save_file[:guesses], save_file[:used_letters])
+  load_game
 end
-
-hangman.game

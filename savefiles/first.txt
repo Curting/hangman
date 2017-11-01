@@ -1,18 +1,20 @@
 ---
-:word: adage
+:word: preppie
 :board:
-- a
+- p
 - _
-- a
-- g
 - e
-:guesses: 3
+- p
+- p
+- _
+- e
+:guesses: 4
 :used_letters:
   :correct:
   - e
-  - a
-  - g
+  - p
   :wrong:
   - l
   - s
-  - m
+  - a
+  - b

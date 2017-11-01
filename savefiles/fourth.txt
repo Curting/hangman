@@ -1,0 +1,18 @@
+---
+:word: catskill
+:board:
+- _
+- a
+- _
+- s
+- _
+- _
+- l
+- l
+:guesses: 0
+:used_letters:
+  :correct:
+  - l
+  - s
+  - a
+  :wrong: []

@@ -1,0 +1,19 @@
+---
+:word: ostensive
+:board:
+- _
+- s
+- _
+- e
+- _
+- s
+- _
+- _
+- e
+:guesses: 1
+:used_letters:
+  :correct:
+  - e
+  - s
+  :wrong:
+  - a
